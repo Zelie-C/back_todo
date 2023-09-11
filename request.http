@@ -1,1 +1,16 @@
-GET http://localhost:3002/todo/eje
+POST http://localhost:3002/todo/huuu
+
+###
+PUT http://localhost:3002/true/ejege
+
+###
+PUT  http://localhost:3002/false/eje
+
+###
+DELETE http://localhost:3002/delete/eje
+
+###
+GET http://localhost:3002/getall
+
+###
+DELETE http://localhost:3002/removeall

@@ -43,23 +43,55 @@ const Todo = sequelize.define('Todo', {
     }
 })
 
-Todo.sync({force: true});
+Todo.sync();
 
 
-app.get('/todo/:value', function (req, res) {
+app.post('/todo/:value', function (req, res) {
     let taskValue: string = req.params.value;
     Todo.create({nomTache: `${taskValue}`, status: false})
-    res.send(`${taskValue}`)
+    res.send(taskValue)
 })
 
-app.get('/todo/:checked', function (req, res) {
-    let taskStatus: string = req.params.checked;
+app.put('/true/:task', function (req, res) {
+    let taskStatus: string = req.params.task;
     Todo.update({status: true}, {
         where: {
             nomTache: taskStatus,
         }
     })
+    res.send("updated")
 })
+
+app.put('/false/:task', function (req, res) {
+    let taskStatus: string = req.params.task;
+    Todo.update({status: false}, {
+        where: {
+            nomTache: taskStatus,
+        }
+    })
+    res.send("updated")
+})
+
+app.delete('/delete/:task', function (req, res) {
+    let task: string = req.params.task;
+    Todo.destroy({
+        where: {
+            nomTache: task,
+        }
+    })
+    res.send("deleted")
+});
+
+app.get('/getall', function (_, res) {
+    const allTasks = Todo.findAll().toString();
+    res.send(allTasks)
+})
+
+app.delete('/removeall', function (_, res) {
+    Todo.truncate();
+    res.send("all tasks deleted")
+})
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
