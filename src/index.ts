@@ -9,18 +9,10 @@ const username = process.env.USERNAME as string;
 const password = process.env.PASSWORD as string;
 const server = process.env.SERVER as string;
 
-const sequelize = new Sequelize(database, username, password, {
-    dialect: 'mssql',
-    host: server,
-    dialectOptions: {
-      // Observe the need for this nested `options` field for MSSQL
-      options: {
-        // Your tedious options here
-        useUTC: false,
-        dateFirst: 1
-      }
-    }
-});
+const sequelize = new Sequelize({
+    dialect: "sqlite",
+    storage: "./db.sqlite",
+  })
 
 async function connexionTest() {
 try {
@@ -82,8 +74,8 @@ app.delete('/delete/:task', function (req, res) {
     res.send("deleted")
 });
 
-app.get('/getall', function (_, res) {
-    const allTasks = Todo.findAll().toString();
+app.get('/getall', async (_, res) => {
+    const allTasks = await Todo.findAll();
     res.send(allTasks)
 })
 
