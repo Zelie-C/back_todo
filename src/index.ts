@@ -34,17 +34,31 @@ try {
 connexionTest();
 
 const Todo = sequelize.define('Todo', {
-    
+    nomTache: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.BOOLEAN
+    }
 })
 
+Todo.sync({force: true});
 
-app.get('/toto', function (req, res) {
-    res.send('toto')
-})
 
-app.get('/test/:value', function (req, res) {
+app.get('/todo/:value', function (req, res) {
     let taskValue: string = req.params.value;
-    res.send(`test ${taskValue}`)
+    Todo.create({nomTache: `${taskValue}`, status: false})
+    res.send(`${taskValue}`)
+})
+
+app.get('/todo/:checked', function (req, res) {
+    let taskStatus: string = req.params.checked;
+    Todo.update({status: true}, {
+        where: {
+            nomTache: taskStatus,
+        }
+    })
 })
 
 app.listen(port, () => {
