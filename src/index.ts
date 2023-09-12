@@ -37,6 +37,9 @@ const Todo = sequelize.define('Todo', {
 
 Todo.sync();
 
+app.get('/', function (_, res) {
+    res.send(200)
+}) 
 
 app.post('/todo/:value', async (req, res) => {
     let taskValue: string = req.params.value;

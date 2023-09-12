@@ -47,6 +47,9 @@ const Todo = sequelize.define('Todo', {
     }
 });
 Todo.sync();
+app.get('/', function (_, res) {
+    res.send(200);
+});
 app.post('/todo/:value', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let taskValue = req.params.value;
     yield Todo.create({ nomTache: `${taskValue}`, status: false });
@@ -94,3 +97,4 @@ app.delete('/removeall', (_, res) => __awaiter(void 0, void 0, void 0, function*
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+//# sourceMappingURL=index.js.map
