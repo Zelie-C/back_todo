@@ -9,10 +9,7 @@ const username = process.env.USERNAME as string;
 const password = process.env.PASSWORD as string;
 const server = process.env.SERVER as string;
 
-const sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./db.sqlite",
-  })
+const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname')
 
 async function connexionTest() {
 try {
