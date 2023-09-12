@@ -2,11 +2,13 @@
   "name": "back_todo",
   "version": "1.0.0",
   "description": "API todolist",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon dist/index.js\"",
-    "start": "tsc && node dist/index.js",
+    "start": "tsc && node index.js",
+    "ts.check": "tsc --project tsconfig.json",
+		"add-build": "git add dist",
     "build": "rimraf dist && tsc"
   },
   "author": "",
