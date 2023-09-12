@@ -38,15 +38,15 @@ const Todo = sequelize.define('Todo', {
 Todo.sync();
 
 
-app.post('/todo/:value', function (req, res) {
+app.post('/todo/:value', async (req, res) => {
     let taskValue: string = req.params.value;
-    Todo.create({nomTache: `${taskValue}`, status: false})
+    await Todo.create({nomTache: `${taskValue}`, status: false})
     res.send(taskValue)
 })
 
-app.put('/true/:task', function (req, res) {
+app.put('/true/:task', async (req, res) => {
     let taskStatus: string = req.params.task;
-    Todo.update({status: true}, {
+    await Todo.update({status: true}, {
         where: {
             nomTache: taskStatus,
         }
@@ -54,9 +54,9 @@ app.put('/true/:task', function (req, res) {
     res.send("updated")
 })
 
-app.put('/false/:task', function (req, res) {
+app.put('/false/:task', async (req, res) => {
     let taskStatus: string = req.params.task;
-    Todo.update({status: false}, {
+    await Todo.update({status: false}, {
         where: {
             nomTache: taskStatus,
         }
@@ -64,9 +64,9 @@ app.put('/false/:task', function (req, res) {
     res.send("updated")
 })
 
-app.delete('/delete/:task', function (req, res) {
+app.delete('/delete/:task', async (req, res) => {
     let task: string = req.params.task;
-    Todo.destroy({
+    await Todo.destroy({
         where: {
             nomTache: task,
         }
@@ -79,9 +79,12 @@ app.get('/getall', async (_, res) => {
     res.send(allTasks)
 })
 
-app.delete('/removeall', function (_, res) {
-    Todo.truncate();
-    res.send("all tasks deleted")
+app.delete('/removeall', async (_, res) => {
+    const todos = await Todo.findAll()
+    for (let index = 0; index < todos.length; index++) {
+        const element = todos[index];
+        await element.destroy()
+    res.send("all tasks deleted")}
 })
 
 
