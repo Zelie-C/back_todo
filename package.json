@@ -31,5 +31,11 @@
     "sequelize": "^6.33.0",
     "sqlite3": "^5.1.6",
     "tedious": "^16.4.0"
-  }
+  },
+
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ]
 }
