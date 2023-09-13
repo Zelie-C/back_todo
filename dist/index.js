@@ -21,7 +21,13 @@ const database = process.env.DATABASE;
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
 const server = process.env.SERVER;
-const sequelize = new sequelize_1.Sequelize('postgres://user:pass@example.com:5432/dbname');
+const sequelize = new sequelize_1.Sequelize(database, username, password, {
+    host: server,
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: 'true'
+    }
+});
 function connexionTest() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

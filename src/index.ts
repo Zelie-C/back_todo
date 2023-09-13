@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import { Sequelize, DataTypes } from 'sequelize';
+import sslmode from 'pg'
 
 let app = express();
 const port = parseInt(process.env.PORT as string);
@@ -9,7 +10,13 @@ const username = process.env.USERNAME as string;
 const password = process.env.PASSWORD as string;
 const server = process.env.SERVER as string;
 
-const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname')
+const sequelize = new Sequelize(database, username, password, {
+  host: server,
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: 'true'
+  }
+});
 
 async function connexionTest() {
 try {
@@ -36,7 +43,7 @@ Todo.sync();
 
 app.get('/', function (_, res) {
     res.send(200)
-}) 
+})
 
 app.post('/todo/:value', async (req, res) => {
     let taskValue: string = req.params.value;
